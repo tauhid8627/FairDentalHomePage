@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Fair Dental Care</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="login-container">
+    <h1>Admin Login</h1>
+    <form action="admin-dashboard.html" method="post" onsubmit="return validateLogin()">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+  </div>
+
+  <script>
+    // Simple client-side validation for login form
+    function validateLogin() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      
+      // Check if credentials match a predefined username and password (admin credentials)
+      if (username === "admin" && password === "admin123") {
+        return true;
+      } else {
+        alert("Invalid login credentials. Please try again.");
+        return false;
+      }
+    }
+  </script>
+</body>
+</html>
