@@ -15,18 +15,6 @@
     </div>
   </header>
 
-  <!-- Admin Form Section -->
-  <section class="form-section">
-    <h2>Add New Patient</h2>
-    <form id="patientForm">
-      <input type="text" id="patientName" placeholder="Patient Name" required />
-      <input type="number" id="patientAge" placeholder="Age" required />
-      <input type="tel" id="patientTelephone" placeholder="Telephone" required />
-      <input type="text" id="patientAddress" placeholder="Address" required />
-      <button type="submit">Add Patient</button>
-    </form>
-  </section>
-
   <!-- Search Section -->
   <section class="search-section">
     <input type="text" id="searchInput" placeholder="Search by name..." onkeyup="searchTable()" />
@@ -45,6 +33,18 @@
       </thead>
       <tbody id="patientTableBody">
         <!-- Patient data will be inserted here -->
+        <tr>
+          <td>Tauhid Shahriar</td>
+          <td>26</td>
+          <td>8801744224191</td>
+          <td>Mohammadpur, Dhaka</td>
+        </tr>
+        <tr>
+          <td>Arma Adiba</td>
+          <td>26</td>
+          <td>8801906366399</td>
+          <td>Mohammadpur, Dhaka</td>
+        </tr>
       </tbody>
     </table>
   </section>
@@ -54,38 +54,6 @@
   </footer>
 
   <script>
-    // URL for the published Google Sheet (can be shared publicly)
-    const googleSheetUrl = "https://spreadsheets.google.com/feeds/list/2PACX-1vS_os6uANtTQl93ZC9HcvryUC6AIVFAqGVa4oohMNJIQXlwuCZvEYQF5NNB4BI_hYkO_wgQA7kwVqvc/od6/public/values?alt=json";
-
-    // Fetch the data from Google Sheets
-    function fetchData() {
-      $.getJSON(googleSheetUrl, function(data) {
-        const patients = data.feed.entry;
-        const tableBody = document.getElementById("patientTableBody");
-        tableBody.innerHTML = ""; // Clear the previous data
-
-        // Loop through the patients data and append rows to the table
-        patients.forEach(function(patient) {
-          const name = patient.gsx$name.$t;
-          const age = patient.gsx$age.$t;
-          const telephone = patient.gsx$telephone.$t;
-          const address = patient.gsx$address.$t;
-
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${name}</td>
-            <td>${age}</td>
-            <td>${telephone}</td>
-            <td>${address}</td>
-          `;
-          tableBody.appendChild(row);
-        });
-      });
-    }
-
-    // Load the patient data when the page loads
-    window.onload = fetchData;
-
     // Function to filter the table based on search input
     function searchTable() {
       const input = document.getElementById("searchInput");
@@ -113,25 +81,6 @@
         }
       }
     }
-
-    // Handle form submission
-    document.getElementById("patientForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      
-      const name = document.getElementById("patientName").value;
-      const age = document.getElementById("patientAge").value;
-      const telephone = document.getElementById("patientTelephone").value;
-      const address = document.getElementById("patientAddress").value;
-
-      // You would normally save this data to a backend, but since we are using Google Sheets, 
-      // you will need to manually add it to the sheet from within Google Sheets itself.
-
-      // Clear form fields
-      document.getElementById("patientForm").reset();
-      
-      // Inform the admin to update the Google Sheet manually (if necessary)
-      alert('New patient added. Please update the Google Sheet manually.');
-    });
   </script>
 </body>
 </html>
