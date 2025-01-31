@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Fair Dental Care</title>
+  <link rel="stylesheet" href="admin-dashboard.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>Admin Dashboard</h1>
+      <p>Manage Patient Data</p>
+    </div>
+  </header>
+  
+  <section class="search-section">
+    <input type="text" id="searchInput" placeholder="Search by name..." onkeyup="searchTable()">
+  </section>
+  
+  <section class="patient-table-section">
+    <table id="patientTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Telephone</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody id="patientTableBody">
+        <!-- Patient data will be inserted here -->
+      </tbody>
+    </table>
+  </section>
+  
+  <footer>
+    <p>&copy; 2025 Fair Dental Care. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // Function to load and parse CSV file
+    function loadCSVData() {
+      // Fetch the CSV file
+      Papa.parse("patients.csv", {
+        download: true,
+        header: true,
+        dynamicTyping: true,
+        complete: function(results) {
+          // Populate the table with CSV data
+          const patients = results.data;
+          const tableBody = document.getElementById("patientTableBody");
+          tableBody.innerHTML = ""; // Clear previous data
+
+          patients.forEach(patient => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${patient.Name}</td>
+              <td>${patient.Age}</td>
+              <td>${patient.Telephone}</td>
+              <td>${patient.Address}</td>
+            `;
+            tableBody.appendChild(row);
+          });
+        }
+      });
+    }
+
+    // Function to filter the table based on search input
+    function searchTable() {
+      const input = document.getElementById("searchInput");
+      const filter = input.value.toLowerCase();
+      const table = document.getElementById("patientTable");
+      const rows = table.getElementsByTagName("tr");
+      
+      for (let i = 1; i < rows.length; i++) { // Start at 1 to skip the table header
+        let cells = rows[i].getElementsByTagName("td");
+        let found = false;
+
+        // Loop through each cell in the row and check if the search term matches any cell
+        for (let j = 0; j < cells.length; j++) {
+          if (cells[j].textContent.toLowerCase().includes(filter)) {
+            found = true;
+            break;
+          }
+        }
+
+        // Show or hide row based on whether the search term matches
+        if (found) {
+          rows[i].style.display = "";
+        } else {
+          rows[i].style.display = "none";
+        }
+      }
+    }
+
+    // Load the patient data when the page loads
+    window.onload = loadCSVData;
+  </script>
+</body>
+</html>
